@@ -22,7 +22,7 @@ export const PopularNovels = ({ novels }: PopularNovelsProps) => {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {novels.slice(0, 6).map((novel) => (
-            <NovelCard key={novel.id} novel={novel} variant="popular" />
+            <NovelCard key={novel.slug} novel={novel} variant="popular" />
           ))}
         </div>
       </div>

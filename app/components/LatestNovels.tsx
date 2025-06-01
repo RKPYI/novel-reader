@@ -22,7 +22,7 @@ export const LatestNovels = ({ novels }: LatestNovelsProps) => {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
           {novels.slice(0, 8).map((novel) => (
-            <NovelCard key={novel.id} novel={novel} variant="latest" />
+            <NovelCard key={novel.slug} novel={novel} variant="latest" />
           ))}
         </div>
       </div>

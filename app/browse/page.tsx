@@ -7,8 +7,9 @@ import {
   LoadingState, 
   ErrorState 
 } from "../components/browse";
+import { Suspense } from "react";
 
-export default function BrowsePage() {
+function BrowsePageContent() {
   const {
     filteredNovels,
     genres,
@@ -48,4 +49,12 @@ export default function BrowsePage() {
       </div>
     </div>
   );
+}
+
+export default function BrowsePage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <BrowsePageContent />
+    </Suspense>
+  )
 }

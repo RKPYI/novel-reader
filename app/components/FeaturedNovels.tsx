@@ -16,7 +16,7 @@ export const FeaturedNovels = ({ novels }: FeaturedNovelsProps) => {
         </h2>
         <div className="grid md:grid-cols-3 gap-8 relative">
           {novels.map((novel) => (
-            <NovelCard key={novel.id} novel={novel} variant="featured" />
+            <NovelCard key={novel.slug} novel={novel} variant="featured" />
           ))}
         </div>
       </div>
