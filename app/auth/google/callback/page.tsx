@@ -11,6 +11,8 @@ function GoogleCallbackContent() {
   const { handleGoogleCallback, refreshAuthFromStorage } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [hasRedirected, setHasRedirected] = useState(false);
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -39,6 +41,8 @@ function GoogleCallbackContent() {
             // Decode user data
             const userData = JSON.parse(atob(userParam));
             
+            console.log('Google auth success, storing data and redirecting...');
+            
             // Store token and user data in your auth context
             localStorage.setItem('auth_token', token);
             localStorage.setItem('auth_user', JSON.stringify(userData));
@@ -46,18 +50,28 @@ function GoogleCallbackContent() {
             // Refresh auth context from storage
             refreshAuthFromStorage();
             
-            // Stop processing state
+            // Set success state
+            setIsSuccess(true);
             setIsProcessing(false);
             
-            // Navigate to home
-            router.push('/');
+            // Navigate to home with a small delay to ensure state updates
+            if (!hasRedirected) {
+              setHasRedirected(true);
+              setTimeout(() => {
+                console.log('Redirecting to home page...');
+                console.log('Current location:', window.location.href);
+                console.log('About to redirect to:', '/');
+                // Use window.location for more reliable redirect
+                window.location.href = '/';
+              }, 1000);
+            }
             return;
           } catch (decodeError) {
             console.error('Failed to decode user data:', decodeError);
             setError('Failed to process authentication data');
             setIsProcessing(false);
             setTimeout(() => {
-              router.push('/');
+              window.location.href = '/';
             }, 3000);
             return;
           }
@@ -73,21 +87,29 @@ function GoogleCallbackContent() {
           setError(errorDescription);
           setIsProcessing(false);
           setTimeout(() => {
-            router.push('/');
+            window.location.href = '/';
           }, 3000);
           return;
         }
 
         // Check if we have the authorization code (old flow)
         if (code) {
+          console.log('Processing old OAuth flow...');
           // Process the Google callback by passing all search parameters
           await handleGoogleCallback(searchParams);
           
-          // Stop processing state
+          // Set success state
+          setIsSuccess(true);
           setIsProcessing(false);
           
-          // Successful authentication - redirect to home
-          router.push('/');
+          // Successful authentication - redirect to home with delay
+          if (!hasRedirected) {
+            setHasRedirected(true);
+            setTimeout(() => {
+              console.log('Redirecting to home page...');
+              window.location.href = '/';
+            }, 1000);
+          }
           return;
         }
 
@@ -95,7 +117,7 @@ function GoogleCallbackContent() {
         setError('Invalid callback - no authentication data received');
         setIsProcessing(false);
         setTimeout(() => {
-          router.push('/');
+          window.location.href = '/';
         }, 2000);
         
       } catch (error: any) {
@@ -103,7 +125,7 @@ function GoogleCallbackContent() {
         setError(error.message || 'Failed to complete Google authentication');
         setIsProcessing(false);
         setTimeout(() => {
-          router.push('/');
+          window.location.href = '/';
         }, 3000);
       }
     };
@@ -116,10 +138,32 @@ function GoogleCallbackContent() {
       setError('Invalid callback - no authentication data received');
       setIsProcessing(false);
       setTimeout(() => {
-        router.push('/');
+        window.location.href = '/';
       }, 2000);
     }
   }, [searchParams, handleGoogleCallback, router]);
+
+  if (isSuccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-grey-950">
+        <div className="text-center">
+          <div className="mb-4">
+            <svg className="w-12 h-12 text-green-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <p className="mt-4 text-grey-300 font-medium">Authentication successful!</p>
+          <p className="mt-2 text-grey-400 text-sm">Redirecting to home page...</p>
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+          >
+            Continue to Home
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
