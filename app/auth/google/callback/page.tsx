@@ -46,6 +46,9 @@ function GoogleCallbackContent() {
             // Refresh auth context from storage
             refreshAuthFromStorage();
             
+            // Stop processing state
+            setIsProcessing(false);
+            
             // Navigate to home
             router.push('/');
             return;
@@ -79,6 +82,9 @@ function GoogleCallbackContent() {
         if (code) {
           // Process the Google callback by passing all search parameters
           await handleGoogleCallback(searchParams);
+          
+          // Stop processing state
+          setIsProcessing(false);
           
           // Successful authentication - redirect to home
           router.push('/');
