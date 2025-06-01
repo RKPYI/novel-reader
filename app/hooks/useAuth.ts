@@ -266,7 +266,45 @@ export const useAuth = () => {
   };
 
   const loginWithGoogle = async (): Promise<void> => {
-    window.location.href = `${API_BASE_URL}/api/auth/google`;
+    try {
+      // Get the Google OAuth URL from the backend
+      const response = await axios.get(`${API_BASE_URL}/api/auth/google`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      // Redirect to Google OAuth
+      window.location.href = response.data.url;
+    } catch (error: any) {
+      throw handleAuthError(error);
+    }
+  };
+
+  const handleGoogleCallback = async (searchParams: URLSearchParams): Promise<AuthResponse> => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Create URL with search parameters for GET request
+      const callbackUrl = new URL(`${API_BASE_URL}/api/auth/google/callback`);
+      searchParams.forEach((value, key) => {
+        callbackUrl.searchParams.append(key, value);
+      });
+      
+      const response = await axios.get(callbackUrl.toString(), {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+      
+      handleAuthSuccess(response.data);
+      return response.data;
+    } catch (error: any) {
+      throw handleAuthError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
@@ -285,6 +323,7 @@ export const useAuth = () => {
     changePassword,
     resendVerificationEmail,
     loginWithGoogle,
+    handleGoogleCallback,
     clearError: () => setError(null)
   };
 };
