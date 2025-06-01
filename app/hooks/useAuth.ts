@@ -307,6 +307,30 @@ export const useAuth = () => {
     }
   };
 
+  const clearError = () => setError(null);
+
+  const refreshAuthFromStorage = () => {
+    const storedToken = localStorage.getItem('auth_token');
+    const storedUser = localStorage.getItem('auth_user');
+    
+    if (storedToken && storedUser) {
+      setToken(storedToken);
+      try {
+        setUser(JSON.parse(storedUser));
+        setError(null);
+      } catch (e) {
+        console.error('Error parsing stored user data:', e);
+        localStorage.removeItem('auth_user');
+        localStorage.removeItem('auth_token');
+        setUser(null);
+        setToken(null);
+      }
+    } else {
+      setUser(null);
+      setToken(null);
+    }
+  };
+
   return {
     user,
     token,
@@ -324,6 +348,7 @@ export const useAuth = () => {
     resendVerificationEmail,
     loginWithGoogle,
     handleGoogleCallback,
-    clearError: () => setError(null)
+    clearError,
+    refreshAuthFromStorage
   };
 };

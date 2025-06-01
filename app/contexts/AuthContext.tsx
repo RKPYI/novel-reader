@@ -31,6 +31,7 @@ interface AuthContextType {
   resendVerificationEmail: () => Promise<void>;
   loginWithGoogle: () => Promise<void>;
   clearError: () => void;
+  refreshAuthFromStorage: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -8,7 +8,7 @@ import {ErrorMessage} from '../../../components/ErrorMessage';
 function GoogleCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { handleGoogleCallback } = useAuth();
+  const { handleGoogleCallback, refreshAuthFromStorage } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(true);
 
@@ -43,10 +43,10 @@ function GoogleCallbackContent() {
             localStorage.setItem('auth_token', token);
             localStorage.setItem('auth_user', JSON.stringify(userData));
             
-            // Trigger auth context update (you may need to add a method for this)
-            window.dispatchEvent(new CustomEvent('auth-update'));
+            // Refresh auth context from storage
+            refreshAuthFromStorage();
             
-            // Successful authentication - redirect to home
+            // Navigate to home
             router.push('/');
             return;
           } catch (decodeError) {
