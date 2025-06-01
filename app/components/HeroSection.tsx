@@ -9,7 +9,7 @@ export const HeroSection = () => {
           Novel <span className="text-gray-400">Reader</span>
         </h1>
         <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto">
-          Discover captivating stories and immerse yourself in worlds of imagination. Your next great read awaits.
+          This is a fan-made site with no official affiliation or monetization—just a place to enjoy and discover great stories.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link href="/browse" className="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-gray-700/25">
