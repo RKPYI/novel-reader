@@ -4,6 +4,7 @@ import axios from "axios";
 import { API_ENDPOINTS } from "../config/api";
 
 export type Novel = {
+  id: number;
   title: string;
   slug: string;
   author: string;

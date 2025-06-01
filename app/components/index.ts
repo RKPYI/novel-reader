@@ -24,3 +24,9 @@ export { ReadingStats } from './ReadingStats';
 export { ChapterNavigationButtons } from './ChapterNavigationButtons';
 export { ReadingProgressIndicator } from './ReadingProgressIndicator';
 export { ReadingSettingsPanel } from './ReadingSettingsPanel';
+
+// Comment and Rating Components
+export { RatingForm } from './RatingForm';
+export { default as RatingDisplay } from './RatingDisplay';
+export { StarRating } from './StarRating';
+export { default as CommentSectionSimple } from './CommentSectionSimple';

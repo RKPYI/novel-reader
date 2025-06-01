@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
-import { Novel, Genre } from "./useNovels";
+import { Novel, Genre } from "../types";
 import { API_ENDPOINTS } from "../config/api";
 
 export interface BrowseFilters {
@@ -93,7 +93,7 @@ export const useBrowse = () => {
     } else if (sortBy === "author") {
       filtered.sort((a, b) => (a.author || "").localeCompare(b.author || ""));
     } else if (sortBy === "rating") {
-      filtered.sort((a, b) => parseFloat(b.rating) - parseFloat(a.rating));
+      filtered.sort((a, b) => b.rating - a.rating);
     }
 
     setFilteredNovels(filtered);

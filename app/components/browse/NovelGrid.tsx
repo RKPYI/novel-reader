@@ -1,4 +1,4 @@
-import { Novel } from "../../hooks";
+import { Novel } from "../../types";
 import { NovelCard } from "../NovelCard";
 
 interface NovelGridProps {

@@ -7,7 +7,8 @@ import {
   ReadingProgressIndicator,
   ChapterNavigationButtons,
   ReadingSettingsPanel,
-  ReadingStats
+  ReadingStats,
+  CommentSectionSimple
 } from './index';
 
 interface ChapterReaderPageProps {
@@ -186,7 +187,7 @@ export default function ChapterReaderPage({ novelSlug, chapterNumber }: ChapterR
           theme={readingSettings.theme}
         />
 
-        {/* Navigation Buttons */}
+        {/* Navigation Buttons (Bottom) */}
         <ChapterNavigationButtons
           onPrevious={navigateToPrevious}
           onNext={navigateToNext}
@@ -197,6 +198,24 @@ export default function ChapterReaderPage({ novelSlug, chapterNumber }: ChapterR
           currentChapter={chapter}
           onNavigateToChapter={navigateToChapter}
         />
+
+        {/* Comment Section */}
+        {novel && typeof novel.id === 'number' && chapter && typeof chapter.id === 'number' ? (
+          <div className="mt-8 pt-8 border-t border-gray-300 dark:border-gray-700">
+            <CommentSectionSimple 
+              novelSlug={novelSlug} 
+              chapterId={chapter.id}
+              novelId={novel.id}
+              className="mt-4"
+            />
+          </div>
+        ) : (
+          <div className="mt-8 pt-8 border-t border-gray-300 dark:border-gray-700">
+            <p className="text-center text-gray-400">Comment section unavailable (missing novel or chapter ID).</p>
+            {/* You might want a loading spinner here if isLoading is true but IDs are not ready */}
+          </div>
+        )}
+
       </div>
     </div>
   );

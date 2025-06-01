@@ -46,7 +46,29 @@ export const API_ENDPOINTS = {
     comments: (slug: string) => `${API_BASE_URL}/api/novels/${slug}/comments`,
     bookmark: (slug: string) => `${API_BASE_URL}/api/novels/${slug}/bookmark`,
     removeBookmark: (slug: string) => `${API_BASE_URL}/api/novels/${slug}/bookmark`,
-  }
+    
+    // Comments and ratings
+    ratings: (slug: string) => `${API_BASE_URL}/api/novels/${slug}/ratings`,
+    myRating: (slug: string) => `${API_BASE_URL}/api/novels/${slug}/my-rating`,
+    chapterComments: (slug: string, chapterNumber: string | number) => 
+      `${API_BASE_URL}/api/novels/${slug}/chapters/${chapterNumber}/comments`,
+  },
+
+  // Comment endpoints
+  comments: {
+    create: `${API_BASE_URL}/api/comments`,
+    update: (commentId: number) => `${API_BASE_URL}/api/comments/${commentId}`,
+    delete: (commentId: number) => `${API_BASE_URL}/api/comments/${commentId}`,
+    vote: (commentId: number) => `${API_BASE_URL}/api/comments/${commentId}/vote`,
+    getUserVote: (commentId: number) => `${API_BASE_URL}/api/comments/${commentId}/vote`,
+  },
+
+  // Rating endpoints
+  ratings: {
+    create: `${API_BASE_URL}/api/ratings`,
+    delete: (ratingId: number) => `${API_BASE_URL}/api/ratings/${ratingId}`,
+    myRatings: `${API_BASE_URL}/api/my-ratings`,
+  },
 } as const;
 
 // Helper function to get API URL (for cases where you need just the base)

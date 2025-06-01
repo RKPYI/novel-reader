@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Novel } from "../hooks";
+import { Novel } from "../types";
 import { NovelCard } from "./NovelCard";
 
 interface LatestNovelsProps {

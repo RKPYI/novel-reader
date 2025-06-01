@@ -1,14 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Novel } from "./useNovels";
+import { Novel, Chapter } from "../types";
 import { API_ENDPOINTS } from "../config/api";
-
-export type Chapter = {
-  id: number;
-  title: string;
-  chapter_number: number;
-  word_count?: number;
-};
 
 interface UseNovelDetailReturn {
   novel: Novel | null;

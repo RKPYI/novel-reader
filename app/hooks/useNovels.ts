@@ -1,25 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Novel, Genre } from "../types";
 import { API_ENDPOINTS } from "../config/api";
-
-export type Genre = {
-  id: number;
-  name: string;
-  slug: string;
-  color: string;
-};
-
-export type Novel = {
-  slug: string;
-  title: string;
-  author?: string;
-  description?: string;
-  cover_image?: string;
-  status: string;
-  rating: string;
-  views: number;
-  genres?: Genre[];
-};
 
 export const useNovels = () => {
   const [popularNovels, setPopularNovels] = useState<Novel[]>([]);

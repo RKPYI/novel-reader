@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ModalProvider } from "./contexts/ModalContext";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -33,11 +34,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <AuthProvider>
-          <Navbar />
-          <div className="flex-1">
-            {children}
-          </div>
-          <Footer />
+          <ModalProvider>
+            <Navbar />
+            <div className="flex-1">
+              {children}
+            </div>
+            <Footer />
+          </ModalProvider>
         </AuthProvider>
         <Analytics />
         <SpeedInsights />

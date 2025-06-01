@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Novel, Chapter } from "../hooks";
+import { Novel, Chapter } from "../types";
 
 interface ChaptersListProps {
   novel: Novel;

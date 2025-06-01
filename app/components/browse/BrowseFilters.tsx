@@ -1,4 +1,5 @@
-import { Genre, BrowseFilters as BrowseFiltersType } from "../../hooks";
+import { Genre } from "../../types";
+import { BrowseFilters as BrowseFiltersType } from "../../hooks";
 
 interface BrowseFiltersProps {
   filters: BrowseFiltersType;

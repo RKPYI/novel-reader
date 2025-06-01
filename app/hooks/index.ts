@@ -3,8 +3,7 @@ export { useNovelDetail } from './useNovelDetail';
 export { useChapterReader } from './useChapterReader';
 export { useBrowse } from './useBrowse';
 export { useRecommendations } from './useRecommendations';
-export type { Novel, Genre } from './useNovels';
-export type { Chapter } from './useNovelDetail';
+export { useRatings } from './useRatings';
 export type { 
   Chapter as ChapterReaderChapter,
   ReadingProgress, 

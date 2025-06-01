@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Novel } from "./useNovels";
+import { Novel } from "../types";
 import { API_ENDPOINTS } from "../config/api";
 
 export interface RecommendationsState {
