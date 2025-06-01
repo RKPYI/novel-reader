@@ -15,12 +15,57 @@ function GoogleCallbackContent() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const code = searchParams.get('code');
+        // Check if this is a success response from backend
+        const success = searchParams.get('success');
+        const token = searchParams.get('token');
+        const userParam = searchParams.get('user');
         const errorParam = searchParams.get('error');
-        const state = searchParams.get('state');
+        const errorMessage = searchParams.get('message');
+
+        // Handle backend redirect with error
+        if (errorParam) {
+          const errorDescription = errorMessage || 'Google authentication failed';
+          setError(errorDescription);
+          setIsProcessing(false);
+          setTimeout(() => {
+            router.push('/');
+          }, 3000);
+          return;
+        }
+
+        // Handle backend redirect with success
+        if (success === 'true' && token && userParam) {
+          try {
+            // Decode user data
+            const userData = JSON.parse(atob(userParam));
+            
+            // Store token and user data in your auth context
+            localStorage.setItem('auth_token', token);
+            localStorage.setItem('auth_user', JSON.stringify(userData));
+            
+            // Trigger auth context update (you may need to add a method for this)
+            window.dispatchEvent(new CustomEvent('auth-update'));
+            
+            // Successful authentication - redirect to home
+            router.push('/');
+            return;
+          } catch (decodeError) {
+            console.error('Failed to decode user data:', decodeError);
+            setError('Failed to process authentication data');
+            setIsProcessing(false);
+            setTimeout(() => {
+              router.push('/');
+            }, 3000);
+            return;
+          }
+        }
+
+        // Handle old OAuth flow (if still using the old method)
+        const code = searchParams.get('code');
+        const oauthError = searchParams.get('error');
 
         // Handle OAuth errors
-        if (errorParam) {
+        if (oauthError) {
           const errorDescription = searchParams.get('error_description') || 'Google authentication was cancelled or failed';
           setError(errorDescription);
           setIsProcessing(false);
@@ -30,21 +75,22 @@ function GoogleCallbackContent() {
           return;
         }
 
-        // Check if we have the authorization code
-        if (!code) {
-          setError('No authorization code received from Google');
-          setIsProcessing(false);
-          setTimeout(() => {
-            router.push('/');
-          }, 3000);
+        // Check if we have the authorization code (old flow)
+        if (code) {
+          // Process the Google callback by passing all search parameters
+          await handleGoogleCallback(searchParams);
+          
+          // Successful authentication - redirect to home
+          router.push('/');
           return;
         }
 
-        // Process the Google callback by passing all search parameters
-        await handleGoogleCallback(searchParams);
-        
-        // Successful authentication - redirect to home
-        router.push('/');
+        // No valid parameters
+        setError('Invalid callback - no authentication data received');
+        setIsProcessing(false);
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
         
       } catch (error: any) {
         console.error('Google callback error:', error);
