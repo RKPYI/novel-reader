@@ -1,11 +1,11 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../../hooks/useAuth';
 import {LoadingSpinner} from '../../../components/LoadingSpinner';
 import {ErrorMessage} from '../../../components/ErrorMessage';
 
-export default function GoogleCallbackPage() {
+function GoogleCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { handleGoogleCallback } = useAuth();
@@ -109,4 +109,19 @@ export default function GoogleCallbackPage() {
   }
 
   return null;
+}
+
+export default function GoogleCallbackPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-grey-950">
+        <div className="text-center">
+          <LoadingSpinner />
+          <p className="mt-4 text-grey-300 font-medium">Loading...</p>
+        </div>
+      </div>
+    }>
+      <GoogleCallbackContent />
+    </Suspense>
+  );
 }
