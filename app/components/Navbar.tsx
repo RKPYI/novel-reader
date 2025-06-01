@@ -25,7 +25,7 @@ export default function Navbar() {
   const searchRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  const { isAuthenticated, user } = useAuthContext();
+  const { isAuthenticated, user, logout } = useAuthContext();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -358,6 +358,18 @@ export default function Navbar() {
                     >
                       Settings
                     </Link>
+                    <button
+                      onClick={async () => {
+                        await logout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="flex items-center w-full text-left text-grey-100 hover:text-white transition-colors font-medium py-2"
+                    >
+                      <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                      </svg>
+                      Sign Out
+                    </button>
                   </div>
                 </div>
               ) : (
