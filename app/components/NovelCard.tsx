@@ -24,9 +24,10 @@ const truncateText = (text: string, maxLength: number): string => {
 };
 
 const StatusBadge = ({ status }: { status: string }) => {
-  const isCompleted = status === 'completed';
-  const isOngoing = status === 'ongoing';
-  
+  const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+  const isCompleted = formattedStatus === 'Completed';
+  const isOngoing = formattedStatus === 'Ongoing';
+
   return (
     <span className={`
       inline-flex items-center px-3 py-1 rounded-full text-xs font-medium backdrop-blur-sm
@@ -40,7 +41,7 @@ const StatusBadge = ({ status }: { status: string }) => {
       <div className={`w-1.5 h-1.5 rounded-full mr-2 ${
         isCompleted ? 'bg-emerald-400' : isOngoing ? 'bg-blue-400' : 'bg-gray-400'
       }`} />
-      {status}
+      {formattedStatus}
     </span>
   );
 };
