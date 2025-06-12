@@ -10,7 +10,7 @@ interface UserDropdownProps {
 export const UserDropdown: React.FC<UserDropdownProps> = ({ className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const { user, logout, isEmailVerified } = useAuthContext();
+  const { user, logout, isEmailVerified, refreshUserData } = useAuthContext();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -22,6 +22,12 @@ export const UserDropdown: React.FC<UserDropdownProps> = ({ className = '' }) =>
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (!isEmailVerified) {
+      refreshUserData();
+    }
+  }, [isEmailVerified, refreshUserData]);
 
   const handleLogout = async () => {
     await logout();

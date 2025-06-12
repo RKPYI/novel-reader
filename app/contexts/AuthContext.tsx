@@ -32,6 +32,7 @@ interface AuthContextType {
   loginWithGoogle: () => Promise<void>;
   clearError: () => void;
   refreshAuthFromStorage: () => void;
+  refreshUserData: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -51,8 +52,20 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const auth = useAuth();
 
+  const refreshUserData = async () => {
+    try {
+      const response = await auth.getCurrentUser();
+      if (response) {
+        auth.user = response;
+        auth.isEmailVerified = response.email_verified;
+      }
+    } catch (error) {
+      console.error("Failed to refresh user data:", error);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={{ ...auth, refreshUserData }}>
       {children}
     </AuthContext.Provider>
   );
