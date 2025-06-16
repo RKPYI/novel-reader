@@ -7,14 +7,15 @@ interface NovelHeaderProps {
 }
 
 export const NovelHeader = ({ novel, chapters }: NovelHeaderProps) => {
+  var formattedStatus = novel.status.charAt(0).toUpperCase() + novel.status.slice(1).toLowerCase();
   return (
     <section className="py-12 bg-gradient-to-br from-gray-800 via-gray-900 to-black">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="bg-gray-800/20 border border-gray-700/30 rounded-xl p-8">
             <div className="flex items-center justify-between mb-6">
-              <Link href="/browse" className="text-gray-400 hover:text-gray-200 transition-colors">
-                ← Back to Browse
+              <Link href="/" className="text-gray-400 hover:text-gray-200 transition-colors">
+                ← Back to Home
               </Link>
               <div className="flex items-center gap-4">
                 <span className={`
@@ -29,7 +30,7 @@ export const NovelHeader = ({ novel, chapters }: NovelHeaderProps) => {
                   <div className={`w-1.5 h-1.5 rounded-full mr-2 ${
                     novel.status === 'completed' ? 'bg-emerald-400' : novel.status === 'ongoing' ? 'bg-blue-400' : 'bg-gray-400'
                   }`} />
-                  {novel.status}
+                  {formattedStatus}
                 </span>
                 <div className="flex items-center space-x-1 bg-amber-500/20 backdrop-blur-sm border border-amber-500/30 rounded-full px-3 py-1">
                   <svg className="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20">
