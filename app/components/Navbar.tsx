@@ -69,10 +69,8 @@ export default function Navbar() {
   };
 
   const handleResultClick = () => {
-    setIsSearchOpen(false);
     setSearchQuery("");
     setIsMobileMenuOpen(false);
-    setIsSearchVisible(false);
   };
 
   const toggleMobileMenu = () => {
@@ -214,9 +212,9 @@ export default function Navbar() {
       {/* Mobile Search Bar */}
       {isSearchVisible && (
         <div className="md:hidden bg-grey-900/95 border-b border-grey-700/50 backdrop-blur-sm sticky top-16 z-40">
-          <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="max-w-7xl mx-auto px-4 py-3" ref={searchRef}>
             <div className="flex items-center gap-3">
-              <div className="relative flex-1" ref={searchRef}>
+              <div className="relative flex-1">
                 <input
                   type="text"
                   placeholder="Search novels..."
